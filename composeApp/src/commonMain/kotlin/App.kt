@@ -13,76 +13,80 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.example.ui.NiaCatalog
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
-    MaterialTheme {
-        var greetingText by remember { mutableStateOf("Hello World!") }
-        var showImage by remember { mutableStateOf(false) }
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            var showCountries by remember { mutableStateOf(false) }
-            var timeAtLocation by remember { mutableStateOf("No location selected") }
+    NiaCatalog()
+}
 
-            Column {
-                Text(
-                    timeAtLocation,
-                    style = TextStyle(fontSize = 20.sp),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                        .align(Alignment.CenterHorizontally)
-                )
-                Row(modifier = Modifier.padding(start = 20.dp, top = 10.dp)) {
-                    DropdownMenu(
-                        expanded = showCountries,
-                        onDismissRequest = { showCountries = false }
-                    ) {
-                        countries.forEach { (name, zone, image) ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    timeAtLocation = currentTimeAt(name, zone)
-                                    showCountries = false
-                                }
-                            ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Image(
-                                        painter = painterResource(image),
-                                        modifier = Modifier.size(50.dp).padding(end = 10.dp),
-                                        contentDescription = "$name flag"
-                                    )
-                                    Text(name)
-                                }
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun Welcome() {
+    var greetingText by remember { mutableStateOf("Hello World!") }
+    var showImage by remember { mutableStateOf(false) }
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        var showCountries by remember { mutableStateOf(false) }
+        var timeAtLocation by remember { mutableStateOf("No location selected") }
+
+        Column {
+            Text(
+                timeAtLocation,
+                style = TextStyle(fontSize = 20.sp),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+            )
+            Row(modifier = Modifier.padding(start = 20.dp, top = 10.dp)) {
+                DropdownMenu(
+                    expanded = showCountries,
+                    onDismissRequest = { showCountries = false }
+                ) {
+                    countries.forEach { (name, zone, image) ->
+                        DropdownMenuItem(
+                            onClick = {
+                                timeAtLocation = currentTimeAt(name, zone)
+                                showCountries = false
+                            }
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Image(
+                                    painter = painterResource(image),
+                                    modifier = Modifier.size(50.dp).padding(end = 10.dp),
+                                    contentDescription = "$name flag"
+                                )
+                                Text(name)
                             }
                         }
                     }
                 }
-                Button(
-                    modifier = Modifier.padding(top = 10.dp),
-                    onClick = { showCountries = !showCountries },
+            }
+            Button(
+                modifier = Modifier.padding(top = 10.dp),
+                onClick = { showCountries = !showCountries },
                 ) {
-                    Text("Select Location")
-                }
+                Text("Select Location")
             }
-            Text(
-                text = "Today's date is ${todaysDate()}",
-                modifier = Modifier.padding(20.dp),
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
+        }
+        Text(
+            text = "Today's date is ${todaysDate()}",
+            modifier = Modifier.padding(20.dp),
+            fontSize = 24.sp,
+            textAlign = TextAlign.Center
+        )
+        Button(onClick = {
+            greetingText = "Compose: ${Greeting().greet()}"
+            showImage = !showImage
+        }) {
+            Text(greetingText)
+        }
+        AnimatedVisibility(showImage) {
+            Image(
+                painterResource("compose-multiplatform.xml"),
+                null
             )
-            Button(onClick = {
-                greetingText = "Compose: ${Greeting().greet()}"
-                showImage = !showImage
-            }) {
-                Text(greetingText)
-            }
-            AnimatedVisibility(showImage) {
-                Image(
-                    painterResource("compose-multiplatform.xml"),
-                    null
-                )
-            }
         }
     }
 }

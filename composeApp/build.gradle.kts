@@ -34,7 +34,9 @@ kotlin {
         
         androidMain.dependencies {
             implementation(libs.compose.ui)
+            implementation(libs.compose.ui.util)
             implementation(libs.compose.ui.tooling.preview)
+            //implementation(libs.compose.foundation.layout)
             implementation(libs.androidx.activity.compose)
         }
         desktopMain.dependencies {
@@ -44,10 +46,16 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
+//            implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             // TODO components which support kotlin multiplatform
-            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+            implementation(compose.materialIconsExtended)
+            implementation(compose.material3)
+//            implementation(libs.compose.ui.util)
+            implementation(libs.kotlinx.datetime)
+//            implementation(libs.coil.kt.compose)
+//            implementation("org.jetbrains.compose.ui:ui-util")
         }
     }
 }
