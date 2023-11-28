@@ -9,8 +9,8 @@ import androidx.compose.ui.window.rememberWindowState
 
 fun main() = application {
     val state = rememberWindowState(
-        size = DpSize(400.dp, 250.dp),
-        position = WindowPosition(300.dp, 300.dp)
+        size = DpSize(375.dp, 700.dp),
+        position = WindowPosition(300.dp, 100.dp)
     )
     Window(
         title = "Local Time App",
