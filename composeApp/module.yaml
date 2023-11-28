@@ -1,0 +1,29 @@
+# Produce a shared library for the JVM, Android, and iOS platforms:
+product:
+  type: lib
+  platforms: [jvm, android, iosArm64, iosSimulatorArm64, iosX64]
+
+# Shared Compose dependencies:
+dependencies:
+  - $compose.foundation: exported
+  - $compose.material3: exported
+
+# Android-only dependencies  
+dependencies@android:
+  # integration compose with activities
+  - androidx.activity:activity-compose:1.7.2: exported
+  - androidx.appcompat:appcompat:1.6.1: exported
+
+# iOS-only dependencies with a dependency on a CocoaPod
+#   note that CocoaPods dependencies are not yet implemented in the prototype
+dependencies@ios:
+  - pod: 'Alamofire'
+    version: '~> 2.0.1'
+
+settings:
+  # Enable Kotlin serialization
+  kotlin:
+    serialization: json
+  
+  # Enable Compose Multiplatform framework
+  compose: enabled

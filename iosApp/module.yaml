@@ -1,0 +1,10 @@
+# Produce an iOS application
+product: ios/app
+
+# Depend on the shared library module: 
+dependencies:
+  - ../composeApp
+
+settings:
+  # Enable Compose Multiplatform framework
+  compose: enabled
