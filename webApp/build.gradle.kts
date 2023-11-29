@@ -24,6 +24,12 @@ plugins {
 //    project.tasks.getByName("wasmJsProcessResources").finalizedBy(copyWasmResources)
 //}
 
+// afterEvaluate {
+//     rootProject.extensions.configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
+//         versions.webpackCli.version = "4.9.0"
+//     }
+// }
+
 kotlin {
     js(IR) {
         moduleName = "ComposeMultiplatformDemo"
