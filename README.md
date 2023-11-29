@@ -12,3 +12,33 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Desktop.
 
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
+
+## Build and run
+
+Check out the repo, navigate to the project folder, and use the following commands:
+
+### Run Web version via Gradle
+
+```
+./gradlew :webApp:wasmJsRun
+```
+
+### Run Desktop version via Gradle
+
+```
+./gradlew :composeApp:desktopRun
+```
+
+### Install Android application via Gradle
+
+```
+./gradlew :composeApp:installDebug
+```
+
+### Run iOS version via Xcode
+
+```
+open -a Xcode iosApp
+# then run target
+```

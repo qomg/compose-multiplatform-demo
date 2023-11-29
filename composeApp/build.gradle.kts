@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -7,11 +10,12 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
 }
 
+
 kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -28,6 +32,14 @@ kotlin {
             isStatic = true
         }
     }
+
+    js(IR) {
+        browser()
+    }
+
+    wasmJs {
+        browser()
+    }
     
     sourceSets {
         val desktopMain by getting
@@ -36,26 +48,48 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.util)
             implementation(libs.compose.ui.tooling.preview)
-            //implementation(libs.compose.foundation.layout)
             implementation(libs.androidx.activity.compose)
         }
         desktopMain.dependencies {
+            implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.cio)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
-//            implementation(compose.ui)
+            implementation(compose.materialIconsExtended)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-            // TODO components which support kotlin multiplatform
-            implementation(compose.materialIconsExtended)
+            @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.material3)
+            // TODO components which support kotlin multiplatform
 //            implementation(libs.compose.ui.util)
             implementation(libs.kotlinx.datetime)
 //            implementation(libs.coil.kt.compose)
 //            implementation("org.jetbrains.compose.ui:ui-util")
+        }
+//        val iosMain by getting {
+//            dependencies {
+//                implementation(libs.ktor.client.darwin")
+//            }
+//        }
+//        val iosSimulatorArm64Main by getting {
+//            dependsOn(iosMain.get())
+//        }
+        val jsWasmMain by creating {
+            dependsOn(commonMain.get())
+        }
+        val jsMain by getting {
+            dependsOn(jsWasmMain)
+            dependencies {
+                implementation(libs.ktor.client.core)
+            }
+        }
+        val wasmJsMain by getting {
+            dependsOn(jsWasmMain)
         }
     }
 }
@@ -89,14 +123,19 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            //proguard
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
+        implementation(libs.compose.foundation.layout)
+        implementation(libs.compose.ui.tooling.preview)
+        implementation(libs.androidx.appcompat)
+        implementation(libs.androidx.core.ktx)
     }
 }
 

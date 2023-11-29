@@ -1,4 +1,4 @@
-import { instantiate } from './imageviewer.uninstantiated.mjs';
+import { instantiate } from './ComposeMultiplatformDemo.uninstantiated.mjs';
 
 await wasmSetup;
 

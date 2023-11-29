@@ -1,4 +1,7 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
@@ -6,20 +9,20 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java) {
-    from(project(":composeApp").file("src/commonMain/resources"))
-    into("build/processedResources/js/main")
-}
-
-val copyWasmResources = tasks.create("copyWasmResourcesWorkaround", Copy::class.java) {
-    from(project(":composeApp").file("src/commonMain/resources"))
-    into("build/processedResources/wasmJs/main")
-}
-
-afterEvaluate {
-    project.tasks.getByName("jsProcessResources").finalizedBy(copyJsResources)
-    project.tasks.getByName("wasmJsProcessResources").finalizedBy(copyWasmResources)
-}
+//val copyJsResources = tasks.create("copyJsResourcesWorkaround", Copy::class.java) {
+//    from(project(":composeApp").file("src/commonMain/resources"))
+//    into("build/processedResources/js/main")
+//}
+//
+//val copyWasmResources = tasks.create("copyWasmResourcesWorkaround", Copy::class.java) {
+//    from(project(":composeApp").file("src/commonMain/resources"))
+//    into("build/processedResources/wasmJs/main")
+//}
+//
+//afterEvaluate {
+//    project.tasks.getByName("jsProcessResources").finalizedBy(copyJsResources)
+//    project.tasks.getByName("wasmJsProcessResources").finalizedBy(copyWasmResources)
+//}
 
 kotlin {
     js(IR) {
@@ -72,8 +75,8 @@ kotlin {
         val jsMain by getting {
             dependsOn(jsWasmMain)
             dependencies {
-                implementation("io.ktor:ktor-client-core:2.3.3")
-                implementation("io.ktor:ktor-client-js:2.3.3")
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.js)
             }
         }
         val wasmJsMain by getting {
