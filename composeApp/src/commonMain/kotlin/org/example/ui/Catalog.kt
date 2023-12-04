@@ -16,6 +16,7 @@
 
 package org.example.ui
 
+import getPlatform
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -74,6 +75,7 @@ fun NiaCatalog() {
                         style = MaterialTheme.typography.headlineSmall,
                     )
                 }
+                item { Text(getPlatform().name, Modifier.padding(top = 16.dp)) }
                 item { Text("Buttons", Modifier.padding(top = 16.dp)) }
                 item {
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
